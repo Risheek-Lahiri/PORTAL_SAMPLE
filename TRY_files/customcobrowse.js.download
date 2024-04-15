@@ -1,0 +1,925 @@
+/*
+Sample Code to Inject Co-Browse with Chat In Any Web Page
+*/
+var ChatUrl = "https://talisma.ex.indianoil.in/Media/VisitorChat/Startchat.aspx";
+var TLCONST_ALLOWED_DOMAIN = ['http://localhost', 'http://dcprtlsmaw01','HTTP://DCPRTLSMAW01', 'http://dcprtlsmaa01','HTTP://DCPRTLSMAA01', 'http://dcprtlsmaa02','HTTP://DCPRTLSMAA02', 'https://px.indianoil.in'];
+var ChatWindow_Height = 450;
+var ChatWindow_Width = 370;
+var chatFromRight = "20";
+var TL_ChatTitle = "IOCL Chat";
+var sFont = "font-family:Verdana,Arial,sans-serif;font-size:.8em;";
+var sColor = "background: #3498db;color: #ffffff;";
+var TL_StartChatBrnId = "btnStart";
+var TL_MsgFormId = "sample";
+var TL_LaunchInSamePage = true;
+// CO-Browse Configuration Start
+var scobrowse = "Start Co-Browse";
+var ecobrowse = "End Co-Browse";
+var cbcolor = "background: #3498db;color: #ffffff;opacity:.9;border:2px solid rgba(11, 100, 247, 0.20);";
+var sccobposition = "top:0px;left:0px;";
+var cbhovercolor = "box-shadow: 0 0 2px 2px rgb(11, 100, 247, 0.50);opacity:1!important";
+var ClickToStartCoBrowse = "Click to Start Co-Browse";
+var CoBrowseInProgress = "Co-Browse is in progress";
+var CoBrowseEnded = "Co-Browse Ended";
+var CoBrowseRequrested = "Initiating Co-Browse";
+var CoBrowseEndTitle = "Click to end Co-Browse Session";
+var CoBrowseEndConfirmation = "This will close current Co-Browse session with Agent. Do you want to continue?";
+var CoBrowseOptionClose = "Close Co-Browse option";
+var ScriptPath = "https://talisma.ex.indianoil.in/Talisma_CoBrowse/";
+// CO-Browse Configuration End
+var IsPlayBack = false;
+var TLReconnect = false;
+var TL_ChatWindowName = "chat";
+var Observing;
+
+var CoBrowse = {
+    NewSession: 'start_session',
+    EndSession: 'end_session',
+    StartRecoding: 'start_recording',
+    EndRecoding: 'end_recording',
+    SaveRecoding: 'save_recording',
+    StartPlayback: 'start_playback',
+    AcceptCobrowse: 'AcceptCobrowse',
+    EndByVis: 'EndByVisitor',
+    RemSupFrame: 'RemSupFrame'
+    //SupJoinCobrowse: 'SupJoinCobrowse'
+};
+
+var VisitorName = 'Visitor';
+var VisitorColor = 'red';
+function InWebclient() {
+    if (IsPlayBack)
+        return true;
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
+}
+(function (w) {
+    var tjs = document.createElement("script");
+    tjs.type = "text/javascript";
+    tjs.src = ScriptPath + "togetherjs.js?bust=" + Math.random();
+    tjs.onload = function () {
+        if (TogetherJS) {
+            TogetherJS.on("ready", function () {
+                var color = sessionStorage.getItem('talisma.cobrowse.color');
+                //Handling Visitor Side Co-Browse Initialization
+                if (this.startup.continued == false && this.startup.reason == 'joined') {
+                    if (!InWebclient()) {
+                        sessionStorage.setItem('talisma.cobrowse.visitor', 'active');
+                        sessionStorage.setItem('talisma.cobrowse.color', VisitorColor);
+                        this.config("getUserName", VisitorName);
+                        color = VisitorColor;
+                        var fileref = document.createElement("link");
+                        fileref.setAttribute("rel", "stylesheet");
+                        fileref.setAttribute("type", "text/css");
+                        fileref.setAttribute("href", ScriptPath + "css/tlstyles.css");
+                        document.head.appendChild(fileref);
+                    }
+                }
+                this.config("getUserColor", color);
+                var isVisitor = sessionStorage.getItem('talisma.cobrowse.visitor');
+                if (isVisitor == 'active') {
+                    if (TL_LaunchInSamePage == true)
+                        OpenChat();
+                    else {
+                        var fileref = document.createElement("link")
+                        fileref.setAttribute("rel", "stylesheet")
+                        fileref.setAttribute("type", "text/css")
+                        fileref.setAttribute("href", ScriptPath + "css/tlstyles.css")
+                        document.head.appendChild(fileref);
+                        // LoadStyle();
+                    }
+                    SendDom("cstate");
+                    LoadCBLauncher();
+                }
+            });
+        }
+    }
+    document.head.appendChild(tjs);
+    document.onreadystatechange = function () {
+        if (document.readyState === 'complete') {
+            if (!InWebclient()) {
+                if (TL_StartChatBrnId != "" && document.getElementById(TL_StartChatBrnId)) {
+                    document.getElementById(TL_StartChatBrnId).onclick = function () {
+                        OpenChat();
+                    };
+                }
+                var isVisitor = sessionStorage.getItem('talisma.cobrowse.visitor');
+                if (isVisitor == 'active' && typeof Observing == 'undefined') {
+                    Observing = true;
+                    LoadStyle();
+                    LoadChatUI();
+                     var form = document.createElement("form");
+                    form.setAttribute("id", "formChat");
+                    form.setAttribute("method", "POST");
+                    form.setAttribute("action", ChatUrl);
+                    form.setAttribute("target", "chat");
+                    document.body.appendChild(form);
+                    form.submit();
+					 var fileref = document.createElement("link")
+                        fileref.setAttribute("rel", "stylesheet")
+                        fileref.setAttribute("type", "text/css")
+                        fileref.setAttribute("href", ScriptPath + "css/tlstyles.css")
+                        document.head.appendChild(fileref);
+                    if (!document.getElementById("tlcb")) {
+                        var tlCbDiv = document.createElement("div");
+                        var EndButton = '<i class="i-stop" onclick="cbActions(\'end\');" title="' + CoBrowseEndTitle + '"></i>';
+                        var CloseButton = '<span onclick="cbActions(\'close\');" title="' + CoBrowseOptionClose + '"><i class="i-cancel-circled"></i></span>';
+                        tlCbDiv.innerHTML = '<div class="tlcbop"><div class="header" id="header"><div>Talisma Co-Browse</div><span style="display:none;">@@tlcomstart@@</span>' + CloseButton + '<span style="display:none;">@@tlcomend@@</span></div><div class="img"><div  id="cbActions" class="cbActions"><a onclick="cbActions(\'start\');" id="aStartChat">' + scobrowse + '<i class="i-desktop-1"></i></a><div id="dUsers"></div></div><div class="cbStatus"><span id="cbStatus" onclick="toggleOption()">' + ClickToStartCoBrowse + '</span><div class="abtns"><i id="aBtn" class="i-angle-circled-up" onclick="toggleOption()"></i><span style="display:none;">@@tlcomstart@@</span>' + EndButton + '<span style="display:none;">@@tlcomend@@</span></div></div></div></div>';
+                        tlCbDiv.setAttribute("id", "tlcb");
+                        tlCbDiv.className = "tlcb";
+                        document.body.appendChild(tlCbDiv);
+                        debugger;
+                    }
+                    if (TogetherJS && TogetherJS.running == true) {
+                        UpdateUser(1);
+                    }
+                    else {
+                        document.getElementById("aStartChat").style.display = "inline-block";
+                    }
+                    
+                    var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+                    var observer = new MutationObserver(function (mutations, observer) {
+                        var changed = false;
+                        if (TogetherJS.running == true) {
+                            mutations.forEach(function (mutation) {
+                                var test = IgnoreObserve(mutation);
+                                if (test == "false")
+                                    changed = true;
+                            });
+                        }
+                        if (changed == true && formInitiated == true) {
+                            SendDom("cstate");
+                            console.log("--Mutation Objserved--");
+                        }
+                    });
+                    observer.observe(document.body, {
+                        childList: true, subtree: true
+                    });
+                    if (TL_LaunchInSamePage == true)
+                        OpenChat();
+                    else {
+                        var fileref = document.createElement("link")
+                        fileref.setAttribute("rel", "stylesheet")
+                        fileref.setAttribute("type", "text/css")
+                        fileref.setAttribute("href", ScriptPath + "css/tlstyles.css")
+                        document.head.appendChild(fileref);
+                        //LoadStyle();
+                    }
+                    LoadCBLauncher();
+                }
+            }
+        }
+    }
+})(window);
+var formInitiated = false;
+function isHidden(el) {
+    var style = {};
+    try {
+        try {
+            style = window.getComputedStyle(el);
+        }
+        catch (e) {
+            style = window.getComputedStyle(el.parentNode);
+        }
+    }
+    catch (e) {
+        return false;
+    }
+    if (style)
+        return (style.display === 'none')
+    else
+        return false;
+}
+function IgnoreObserve(mutation) {
+    var ignore = "false";
+    if (mutation.target && mutation.target.outerHTML.indexOf("togetherjs") > -1)
+        return "true";
+    if (mutation.addedNodes.length) {
+        if (typeof mutation.addedNodes[0].className != 'undefined' && mutation.addedNodes[0].className.indexOf("togetherjs") > -1)
+            ignore = "true";
+        else {
+            var txt = mutation.addedNodes[0].innerText || mutation.addedNodes[0].textContent;
+            if (txt.trim() == "" && mutation.addedNodes[0].innerHTML.indexOf("i-user-male") == -1)
+                ignore = "true";
+            else if (isHidden(mutation.addedNodes[0]) == true)
+                ignore = "true";
+        }
+    }
+    else if (mutation.removedNodes.length > 0) {
+        if (typeof mutation.removedNodes[0].className != 'undefined' && mutation.removedNodes[0].className.indexOf("togetherjs") > -1)
+            ignore = "true";
+        else {
+            var txt = mutation.removedNodes[0].innerText || mutation.removedNodes[0].textContent;
+            if (txt.trim() == "")
+                ignore = "true";
+            else if (isHidden(mutation.removedNodes[0]) == true)
+                ignore = "true";
+        }
+    }
+    return ignore;
+}
+
+var TL_ValidationBeforeSubmit = function () {
+    //var Email = document.getElementById("Email");
+    //var theEmail = '';
+    //if (Email && Email.value != '') {
+    //    theEmail = GetTrimmedString(Email.value);
+    //    Email.value = theEmail;
+    //}
+
+    //if (theEmail.length > 0) {
+    //    if (!VerifyEmail(theEmail)) {
+    //        alert("Please enter a Valid Email ID");
+    //        Email.focus();
+    //        return false;
+    //    }
+    //}
+    return true;
+}
+
+function UpdDom() {
+    try {
+        var screen = document.documentElement.cloneNode(true);
+        var count = document.getElementsByTagName("input").length;
+        for (var i = 0; i < count; i++) {
+            var ccntrl = document.getElementsByTagName("input")[i];
+            if (ccntrl.getAttribute("talismamasking") == null) {
+                ccntrl.setAttribute("value", ccntrl.value);
+                if (ccntrl.checked)
+                    ccntrl.setAttribute("checked", "true");
+            }
+        }
+        count = document.getElementsByTagName("select").length;
+        for (var i = 0; i < count; i++) {
+            var ccntrl = document.getElementsByTagName("select")[i];
+            if (ccntrl.getAttribute("talismamasking") == null) {
+                for (j = 0; j < ccntrl.getElementsByTagName("option").length; j++) {
+                    if (ccntrl.selectedIndex == j)
+                        ccntrl.getElementsByTagName("option")[j].setAttribute("selected", "true");
+                }
+            }
+        }
+        count = document.getElementsByTagName("textarea").length;
+        for (var i = 0; i < count; i++) {
+            var ccntrl = document.getElementsByTagName("textarea")[i];
+            if (ccntrl.getAttribute("talismamasking") == null) {
+                ccntrl.innerText = ccntrl.value;
+            }
+        }
+    }
+    catch (e) { }
+}
+
+// To initiate Chat
+function OpenChat() {
+    try {
+        if (TL_ValidationBeforeSubmit() == true) {
+            sessionStorage.setItem('talisma.cobrowse.visitor', 'active');
+            if (TL_LaunchInSamePage == true) {
+                if (document.getElementById("chat-frame") == null) {
+                    sessionStorage.setItem('talisma.cobrowse.chat.close', false);
+                    // LoadChatUI();
+                }
+                else
+                    return;
+            }
+            else {
+                chatwindow = window.open("about:blank", TL_ChatWindowName, "height=" + ChatWindow_Height + ", width = " + ChatWindow_Width);
+            }
+            var fileref = document.createElement("link")
+            fileref.setAttribute("rel", "stylesheet")
+            fileref.setAttribute("type", "text/css")
+            fileref.setAttribute("href", ScriptPath + "css/tlstyles.css")
+            document.head.appendChild(fileref);
+            //LoadStyle();
+            var form = document.getElementById(TL_MsgFormId);
+            //form.action = ChatUrl;
+            //form.submit();
+            LoadCBLauncher();
+            // parent.postMessage("*", "*");
+        }
+    }
+    catch (e) { }
+    if (typeof Observing == 'undefined') {
+        Observing = true;
+
+        var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+        var observer = new MutationObserver(function (mutations, observer) {
+            var changed = false;
+            if (TogetherJS.running == true) {
+                mutations.forEach(function (mutation) {
+                    var test = IgnoreObserve(mutation);
+                    if (test == "false")
+                        changed = true;
+                });
+            }
+            if (changed == true && formInitiated == true) {
+                SendDom("cstate");
+                console.log("--Mutation Objserved--");
+            }
+        });
+        observer.observe(document.body, {
+            childList: true, subtree: true
+        });
+    }
+}
+function UpdateUser(count, name) {
+    try {
+        var dUsers = document.getElementById("dUsers");
+        if (dUsers) {
+            if (dUsers.getAttribute("userCount") != count) {
+                // Send dom of visitor if any new user joins co-browse
+                if (typeof dUsers.getAttribute("userCount") != 'undefind' && parseInt(count) > parseInt(dUsers.getAttribute("userCount")) && !InWebclient()) {
+                    setTimeout(function () {
+                        SendDom("cstate");
+                    }, 5000);
+                }
+                dUsers.setAttribute("userCount", count);
+            }
+            document.getElementById("aStartChat").style.display = "none";
+            if (typeof count != 'undefined') {
+                if (count == 0) {
+                    dUsers.innerHTML = "";
+                    document.getElementById("aStartChat").style.display = "inline-block";
+                    document.getElementById("cbStatus").innerHTML = CoBrowseEnded;
+                    TLReconnect = true;
+                    return;
+                }
+                else if (dUsers.childElementCount == count)
+                    return;
+                else if (dUsers.childElementCount > count) {
+                    var cChild = dUsers.getElementsByTagName("span")[0];
+                    cChild.className = "";
+                    dUsers.removeChild(cChild);
+                }
+                else {
+                    if (dUsers.childElementCount < 2) {
+                        var sp = document.createElement("span");
+                        name = (typeof name != 'undefined') ? name : "User";
+                        sp.setAttribute("title", name);
+                        sp.innerHTML = '<i class="i-user-male"></i>';
+                        dUsers.appendChild(sp);
+                        setTimeout(function () {
+                            sp.className = "active";
+                        }, 1000);
+                    }
+                }
+                if (count == 1)
+                    document.getElementById("cbStatus").innerHTML = CoBrowseRequrested;
+                else
+                    document.getElementById("cbStatus").innerHTML = CoBrowseInProgress;
+            }
+            else {
+                if (dUsers.getElementsByTagName("span").length > 0) {
+                    var user = dUsers.getElementsByTagName("span")[0];
+                    dUsers.removeChild(user);
+                }
+            }
+        }
+        else
+            LoadCBLauncher();
+    }
+    catch (e)
+    { }
+}
+function toggleOption() {
+    var cntrl = document.getElementById("header");
+    var cntrlAction = document.getElementById("cbActions");
+    if (cntrl && cntrlAction) {
+        if (cntrl.style.display == "none") {
+            cntrl.style.display = "inline-block";
+            cntrlAction.style.display = "inline-block";
+            if (document.getElementById("aBtn"))
+                document.getElementById("aBtn").className = "i-angle-circled-up";
+        }
+        else {
+            cntrl.style.display = "none";
+            cntrlAction.style.display = "none";
+            if (document.getElementById("aBtn"))
+                document.getElementById("aBtn").className = "i-angle-circled-down";
+        }
+    }
+}
+
+function LoadCBLauncher() {
+ if(sessionStorage.getItem("talisma.cobrowse.visitor") == 'active' ){
+    if (!document.getElementById("tlcb")) {
+        var tlCbDiv = document.createElement("div");
+        var EndButton = '<i class="i-stop" onclick="cbActions(\'end\');" title="' + CoBrowseEndTitle + '"></i>';
+        var CloseButton = '<span onclick="cbActions(\'close\');" title="' + CoBrowseOptionClose + '"><i class="i-cancel-circled"></i></span>';
+        tlCbDiv.innerHTML = '<div class="tlcbop"><div class="header" id="header"><div>Talisma Co-Browse</div><span style="display:none;">@@tlcomstart@@</span>' + CloseButton + '<span style="display:none;">@@tlcomend@@</span></div><div class="img"><div  id="cbActions" class="cbActions"><a onclick="cbActions(\'start\');" id="aStartChat">' + scobrowse + '<i class="i-desktop-1"></i></a><div id="dUsers"></div></div><div class="cbStatus"><span id="cbStatus" onclick="toggleOption()">' + ClickToStartCoBrowse + '</span><div class="abtns"><i id="aBtn" class="i-angle-circled-up" onclick="toggleOption()"></i><span style="display:none;">@@tlcomstart@@</span>' + EndButton + '<span style="display:none;">@@tlcomend@@</span></div></div></div></div>';
+        tlCbDiv.setAttribute("id", "tlcb");
+        tlCbDiv.className = "tlcb";
+        document.body.appendChild(tlCbDiv);
+        debugger;
+    }
+    if (TogetherJS && TogetherJS.running == true) {
+        UpdateUser(1);
+    }
+    else {
+        document.getElementById("aStartChat").style.display = "inline-block";
+    }}
+}
+
+function LoadStyle() {
+    var cStyle = document.createElement("style");
+    cStyle.type = "text/css";
+    var strStyle = ".chat-frame {width: " + ChatWindow_Width + "px;border: 0px none;}";
+    strStyle += ".bordert{box-shadow:5px 5px 3px rgba(38, 35, 35, 0.58);border:1px solid rgba(38, 35, 35, 0.30);}";
+    strStyle += ".chat-frame>div{float:left;}";
+    strStyle += "html{" + sFont + "}";
+    strStyle += ".transitions{-webkit-transition: all 0.2s ease-in-out 0.2s;-moz-transition: all 0.2s ease-in-out 0.2s;-o-transition: all 0.2s ease-in-out 0.2s;-ms-transition: all 0.2s ease-in-out 0.2s;transition: all 0.2s ease-in-out 0.2s;}";
+    strStyle += ".chat-frame iframe {width: 100%;height: 100%;border: 0px none;}";
+    strStyle += ".chat-title {height:30px;width:100%;line-height:25px;cursor:pointer;}";
+    strStyle += ".chat-title > div {float:right;}";
+    strStyle += ".chat-title > span {float:left;margin:2px 5px;font-weight: bold;}";
+    strStyle += ".close{ display: block;cursor: pointer;float: right;height: 30px;width: 33px;font-size: 15px !important;line-height: 28px;text-align: center;box-shadow: -1px 0 0px 0 rgba(0, 0, 0, 0.2); }";
+    strStyle += ".close:hover {background-color: #ffffff;color: #505050;}";
+    strStyle += ".chat-body {width:100%;height: " + (ChatWindow_Height - 30) + "px;}";
+    strStyle += "button{text-align:center;padding-left:22px;display: inline-block;width:25px;height:20px;line-height:11px;margin:5px 3px;}";
+    strStyle += "button:before{width: 1em;text-align: center;margin-left:-1em;margin-top:1em;pointer-events: none;background:none;background-color:none;}";
+    strStyle += "button:hover{Box-shadow: 0 0 2px 3px rgba(0, 0, 0, 0.5);}";
+    strStyle += ".absolutes {position: fixed;right: " + chatFromRight + "px;bottom: 0px;}";
+    strStyle += ".bgcolor {" + sColor + ";text-decoration: none;}";
+    strStyle += ".btn{padding: 5px 10px 5px 10px;margin:4px;height:31px;width:90px;}";
+    strStyle += ".btn:hover {text-shadow: 0 0 15px #000000;}";
+    cStyle.innerHTML = strStyle;
+    document.head.appendChild(cStyle);
+}
+
+function LoadChatUI(manualLaunch) {
+    var isClosed = sessionStorage.getItem('talisma.cobrowse.chat.close');
+    if (isClosed == true || document.getElementById("chat-frame"))
+        return;
+    //  LoadStyle();
+    var frameDiv = document.createElement("div");
+    frameDiv.setAttribute("id", "chat-frame");
+    frameDiv.setAttribute("class", "chat-frame absolutes bordert");
+    var titleDiv = document.createElement("div");
+    titleDiv.setAttribute("class", "chat-title bgcolor");
+    titleDiv.innerHTML = "<span>" + TL_ChatTitle + "</span>";
+    titleDiv.setAttribute("onclick", "minimizeMe()");
+    var cBtn = document.createElement("i");
+    cBtn.className = "bgcolor";
+    cBtn.setAttribute("onclick", "closeMe('chat-frame')");
+    cBtn.setAttribute("class", "close");
+    cBtn.innerHTML = "X";
+    var bDiv = document.createElement("div");
+    bDiv.appendChild(cBtn);
+    titleDiv.appendChild(bDiv);
+    var bodyDiv = document.createElement("div");
+    bodyDiv.setAttribute("class", "chat-body transitions");
+    bodyDiv.setAttribute("id", "chat-body");
+    bodyDiv.innerHTML = '<iframe id="fChat" src="" name="chat" ></iframe></div>';
+    frameDiv.appendChild(titleDiv);
+    frameDiv.appendChild(bodyDiv);
+    var commDiv = document.createElement("div");
+    commDiv.innerHTML = "@@tlcomstart@@";
+    commDiv.style.cssText = "display:none;";
+    document.body.appendChild(commDiv);
+    document.body.appendChild(frameDiv);
+    commDiv = document.createElement("div");
+    commDiv.style.cssText = "display:none;";
+    commDiv.innerHTML = "@@tlcomend@@";
+    document.body.appendChild(commDiv);
+    var frmeHeight = document.getElementById("chat-frame").offsetHeight;
+    document.getElementById("chat-body").style.height = (frmeHeight - 30) + "px";
+    if (typeof manualLaunch == 'undefined' || manualLaunch == false)
+        //document.getElementById("fChat").setAttribute("src", ChatUrl);
+        var ismin = sessionStorage.getItem('talisma.cobrowse.chat.minimize');
+    if (ismin) {
+        if (document.getElementById("chat-body"))
+            document.getElementById("chat-body").style.height = 0 + "px";
+    }
+}
+
+function minimizeMe() {
+ 
+	
+
+    if (document.getElementById("chat-body")) {
+        if (document.getElementById("chat-body").style.height == "0px") {
+            document.getElementById("chat-body").style.height = (ChatWindow_Height - 30) + "px";
+            sessionStorage.setItem('talisma.cobrowse.chat.minimize', false);
+        }
+        else {
+            document.getElementById("chat-body").style.height = 0 + "px";
+            sessionStorage.setItem('talisma.cobrowse.chat.minimize', true);
+        }
+    }
+}
+function closeMe(id) {
+
+	if (sessionStorage.getItem('talisma.cobrowse.visitor') == 'active') 
+	{ 
+		cbActions('close');
+	}
+
+    if (document.getElementById(id)) {
+        var chatFrame = document.getElementById(id);
+        document.body.removeChild(chatFrame);
+        sessionStorage.setItem('talisma.cobrowse.chat.close', true);
+    }
+}
+
+
+//Initialize Cross Domain Messaging 
+(function (w) {
+    w.addEventListener("message", function (event) {
+        //Security Check for Domain
+        var ads = TLCONST_ALLOWED_DOMAIN,
+            i = ads.indexOf(event.origin),
+            domain = ads[i] || '';
+        if (i > -1 && domain.indexOf(event.origin) === 0) {
+            var _d;
+            try { _d = JSON.parse(event.data) } catch (e) { };
+            _d = _d || {};
+            _d.type = _d.type || 'anonymous';
+            //Handle the message coming from Webclient
+            if (_d.type === 'co-browse-message') {
+                //Setting Parent Webclient for Message Communication
+                _webclient = {
+                    PostMessage: function (d) {
+                        try {
+                            if (typeof d === 'string')
+                                d = JSON.parse(d);
+                            //Set Data in Response Object
+                            if (typeof d.type == 'undefined' || typeof d.response == 'undefined') {
+                                d = {
+                                    type: 'co-browse-message',
+                                    response: d
+                                }
+                            }
+                            if (!d.mapid > 0)
+                                d.mapid = sessionStorage.getItem('talisma.cobrowse.mapid');
+                            event.source.postMessage(JSON.stringify(d), event.origin);
+                        }
+                        catch (e) {
+                            console.log('Error in Send Message to Webclient');
+                        }
+                    }
+                }
+                MessageHandler(_d);
+            }
+                // handle Chat server message for visitor
+            else if (_d.type === 'csmessage') {
+                if (TogetherJS && TogetherJS.running === true) {
+                    if (_d.agentname == "-100") {
+                        alert("Licence not available for Co-Browse!");
+                        TogetherJSChat.endSession(function (session) {
+                        });
+                        if (document.getElementById("tlcb"))
+                            document.getElementById("tlcb").innerHTML = "No Licence!";
+                    }
+                    TogetherJS.config("getUserName", _d.agentname);
+                    TogetherJS.config("getUserColor", _d.agentcolor);
+                    sessionStorage.setItem('talisma.cobrowse.color', _d.agentcolor);
+                    sessionStorage.setItem('talisma.cobrowse.visitor', 'active');
+                }
+            }
+        }
+    }, false);
+    window._webclient = {
+        PostMessage: function (d) {
+            if (!InWebclient())
+                return;
+            try {
+                if (typeof d === 'string')
+                    d = JSON.parse(d);
+                //Set Data in Response Object
+                if (typeof d.type == 'undefined' || typeof d.response == 'undefined') {
+                    d = {
+                        type: 'co-browse-message',
+                        response: d
+                    }
+                }
+                if (!d.mapid > 0)
+                    d.mapid = sessionStorage.getItem('talisma.cobrowse.mapid');
+                parent.postMessage(JSON.stringify(d), '*');
+            }
+            catch (e) {
+                console.log('Error in Send Message to Webclient');
+            }
+        }
+    }
+})(window);
+
+function SendDom(state) {
+    if (TogetherJS && TogetherJS.running == true) {
+        UpdDom();
+        TogetherJS.send({ type: state, isVisible: true, element: document.documentElement.innerHTML });
+    }
+}
+
+// Initiation from visitor Side
+function cbActions(action) {
+    switch (action) {
+        case "end":
+            if (!confirm(CoBrowseEndConfirmation))
+                return;
+			if (sessionStorage.getItem('talisma.cobrowse.visitor') == 'active') 
+			 { 
+				sessionStorage.setItem('talisma.cobrowse.visitor', 'close'); 
+			}
+            if (TogetherJS && TogetherJS.running == true) {
+                TogetherJSChat.endSession(function (session) {
+                });
+                UpdateUser(0);
+            }
+            break;
+        case "close":
+            if (!confirm(CoBrowseEndConfirmation))
+                return;
+			 if (sessionStorage.getItem('talisma.cobrowse.visitor') == 'active') 
+			 { 
+				sessionStorage.setItem('talisma.cobrowse.visitor', 'close'); 
+			}
+            if (TogetherJS && TogetherJS.running == true) {
+                TogetherJSChat.endSession(function (session) {
+                });
+                UpdateUser(0);
+            }
+            if (document.getElementById("tlcb"))
+                document.body.removeChild(document.getElementById("tlcb"));
+            break;
+        case "start":
+            if (TogetherJS && TogetherJS.running != true) {
+                TogetherJS.on("ready", function () {
+                    try {
+                        var cbdata = {};
+                        cbdata.shareurl = this.shareUrl();
+                        cbdata.shareid = cbdata.shareurl.split('&togetherjs=')[1];
+                        cbdata.type = 'csmessage';
+                        if (TL_LaunchInSamePage == true) {
+                            if (typeof chatwindow == 'undefined')
+                                chatwindow = document.getElementById("fChat").contentWindow;
+                            var sData = JSON.stringify(cbdata);
+                            chatwindow.postMessage(sData, "*");
+                            SendDom("cstate");
+                            LoadCBLauncher(true);
+                        }
+                        else {
+                            var callBack = function () {
+                                var sData = JSON.stringify(cbdata);
+                                chatwindow.postMessage(sData, "*");
+                                SendDom("cstate");
+                                LoadCBLauncher(true);
+                            }
+                            chatwindow = window.open("", TL_ChatWindowName, "height=" + ChatWindow_Height + ", width = " + ChatWindow_Width, true);
+                            callBack();
+                        }
+                    }
+                    catch (e) { }
+                });
+                TogetherJS();
+            }
+            break;
+    }
+}
+
+function MessageHandler(data) {
+    //Storing Map ID which will be the key for Communication with webclient
+    sessionStorage.setItem('talisma.cobrowse.mapid', data.mapid);
+    switch (data.action) {
+        case CoBrowse.NewSession:
+            StartTogetherJS(data, function () {
+                //Set Agent Name                                 
+                data.response = {
+                    shareurl: this.shareUrl(),
+                    running: this.running,
+                    shareid: null
+                }
+                try {
+                    data.response.shareid = data.response.shareurl.split('&togetherjs=')[1];
+                    TogetherJS.Agent = true;
+                }
+                catch (e) { }
+                _webclient.PostMessage(data);
+            });
+            break;
+        case CoBrowse.EndSession:
+            TogetherJSChat.endSession(function (session) {
+                data.response = {
+                    recordeddata: session.recordeddata || '',
+                    recording: session.recording || false,
+                    sessionend: session.sessionend,
+                    limitexceed: false,
+                    filename: session.filename
+                };
+                _webclient.PostMessage(data);
+            });
+            TogetherJS();
+            break;
+        case CoBrowse.StartRecoding:
+            UpdDom();
+            TogetherJSChat.startRecording(function (record) {
+                data.response = {
+                    started: record.started,
+                    prevstarted: record.prevstarted,
+                }
+                _webclient.PostMessage(data);
+            }, document.documentElement.innerHTML);
+
+            break;
+        case CoBrowse.EndRecoding:
+        case CoBrowse.SaveRecoding:
+            TogetherJSChat.getRecording(function (record) {
+                data.response = {
+                    recordeddata: record.recordeddata,
+                    recording: record.recording,
+                    limitexceed: false,
+                    filename: record.filename
+                }
+                _webclient.PostMessage(data);
+            })
+            break;
+        case CoBrowse.AcceptCobrowse:
+            sessionStorage.setItem('talisma.cobrowse.visitor', 'close');
+            sessionStorage.setItem('talisma.cobrowse.color', data.agentcolor);
+            TogetherJS.config("getUserName", data.agentname);
+            color = data.agentcolor;
+            if (data.supervisor == true) {
+                TogetherJS.supervisor = data.supervisor;
+                document.getElementById("ronly").style.display = "block";
+            }
+            break;
+    }
+}
+
+function StartTogetherJS(data, callback) {
+    if (TogetherJS && TogetherJS.running != true) {
+        TogetherJS.config("getUserName", data.agentname);
+        TogetherJS.config("getUserColor", data.agentcolor);
+        sessionStorage.setItem('talisma.cobrowse.color', data.agentcolor);
+        sessionStorage.setItem('talisma.cobrowse.visitor', 'close');
+        TogetherJS.on("ready", callback);
+        TogetherJS();
+    }
+}
+
+function SaveRecordingLimitExceed(RecordData) {
+    _webclient.PostMessage({
+        type: 'co-browse-message',
+        action: 'save_recording',
+        mapid: sessionStorage.getItem('talisma.cobrowse.mapid'),
+        response: {
+            recordeddata: encodeURIComponent(RecordData),
+            recording: true,
+            limitexceed: true
+        }
+    });
+}
+
+function StartPlayBack() {
+    var file = getQueryStringValue("file"),
+    action = getQueryStringValue("action");
+    if (file && action === 'playback') {
+        var data = {
+            type: 'co-browse-message',
+            action: 'start_playback',
+            operation: 'playback',
+            file: encodeURIComponent(file),
+            mapid: 1
+        };
+        if (TogetherJS && TogetherJS.running != true) {
+            IsPlayBack = true;
+            TogetherJS.on('ready', function () {
+                TogetherJSChat.operations('/' + data.operation + ' ' + decodeURIComponent(data.file));
+            })
+            TogetherJS();
+        }
+    }
+}
+function EndPlayBack() {
+    alert("Playback has been completed");
+}
+function getQueryStringValue(key) {
+    return getURLParameter(location, key);
+}
+function getURLParameter(url, key) {
+    key = key.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + key + "=([^&#]*)"),
+            results = regex.exec(url.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+window.addEventListener("message", receiveMessage, false);
+
+function receiveMessage(event) {
+    sessionStorage.setItem('talisma.cobrowse.visitor', 'active');
+    var fileref = document.createElement("link")
+    fileref.setAttribute("rel", "stylesheet")
+    fileref.setAttribute("type", "text/css")
+    fileref.setAttribute("href", ScriptPath + "css/tlstyles.css")
+    document.head.appendChild(fileref);
+    LoadStyle();
+    if (typeof Observing == 'undefined') {
+        Observing = true;
+        var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+        var observer = new MutationObserver(function (mutations, observer) {
+            var changed = false;
+            if (TogetherJS.running == true) {
+                mutations.forEach(function (mutation) {
+                    var test = IgnoreObserve(mutation);
+                    if (test == "false")
+                        changed = true;
+                });
+            }
+            if (changed == true && formInitiated == true) {
+                SendDom("cstate");
+                console.log("--Mutation Objserved--");
+            }
+        });
+        observer.observe(document.body, {
+            childList: true, subtree: true
+        });
+    }
+    LoadCBLauncher();
+}
+function LoadChatUIpre() {
+    var Var2 = window.Var1;
+
+    frameDiv = document.createElement("div");
+    frameDiv.setAttribute("id", "chat-frame");
+    frameDiv.setAttribute("class", "chat-frame absolutes bordert");
+    var titleDiv = document.createElement("div");
+    titleDiv.setAttribute("class", "chat-title bgcolor");
+    titleDiv.innerHTML = "<span>" + TL_ChatTitle + "</span>";
+    titleDiv.setAttribute("onclick", "minimizeMe()");
+    var cBtn = document.createElement("i");
+    cBtn.className = "close";
+    cBtn.setAttribute("onclick", "closeMe('chat-frame')");
+    cBtn.innerHTML = "X";
+    cBtn.setAttribute("class", "close");
+    var bDiv = document.createElement("div");
+    bDiv.appendChild(cBtn);
+    titleDiv.appendChild(bDiv);
+    var bodyDiv = document.createElement("div");
+    bodyDiv.setAttribute("class", "chat-body transitions");
+    bodyDiv.setAttribute("id", "chat-body");
+    bodyDiv.innerHTML = '<iframe id="fChat" src="' + Var2 + '" name="chat" ></iframe></div>';
+    frameDiv.appendChild(titleDiv);
+    frameDiv.appendChild(bodyDiv);
+    var commDiv = document.createElement("div");
+    commDiv.innerHTML = "@@tlcomstart@@";
+    commDiv.style.cssText = "display:none;";
+    document.body.appendChild(commDiv);
+    document.body.appendChild(frameDiv);
+    commDiv = document.createElement("div");
+    commDiv.style.cssText = "display:none;";
+    commDiv.innerHTML = "@@tlcomend@@";
+    document.body.appendChild(commDiv);
+    
+    var frmeHeight = document.getElementById("chat-frame").offsetHeight;
+    document.getElementById("chat-body").style.height = (frmeHeight - 30) + "px";
+}
+// To initiate Chat (Proactive/reactive)
+function OpenChatInt(proactive) {
+    var url = proactive.getSource().getProperty('talismaURL');
+    window.Var1 = url;
+    LoadStyle();
+    LoadChatUIpre();
+}
+
+window.addEventListener("message", receiveMessage, false);
+
+function receiveMessage(event) {
+    if (event.origin == "http://140.58.16.35" && event.data == "Close") 
+	{
+            closeMe('chat-frame'); 	
+    }
+    else if(event.origin == "https://talisma.ex.indianoil.in" && event.data=="callBack")
+    {
+	sessionStorage.setItem('talisma.cobrowse.visitor', 'active');
+    var fileref = document.createElement("link")
+    fileref.setAttribute("rel", "stylesheet")
+    fileref.setAttribute("type", "text/css")
+    fileref.setAttribute("href", ScriptPath + "css/tlstyles.css")
+    document.head.appendChild(fileref);
+    LoadStyle();
+    if (typeof Observing == 'undefined') {
+        Observing = true;
+        var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+        var observer = new MutationObserver(function (mutations, observer) {
+            var changed = false;
+            if (TogetherJS.running == true) {
+                mutations.forEach(function (mutation) {
+                    var test = IgnoreObserve(mutation);
+                    if (test == "false")
+                        changed = true;
+                });
+            }
+            if (changed == true && formInitiated == true) {
+                SendDom("cstate");
+                console.log("--Mutation Objserved--");
+            }
+        });
+        observer.observe(document.body, {
+            childList: true, subtree: true
+        });
+    }
+    LoadCBLauncher();
+    }
+}

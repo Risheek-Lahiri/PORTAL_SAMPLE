@@ -1,0 +1,27 @@
+//window.addEventListener('DOMContentLoaded', function(){
+//$("body").on("keypress",".pininput input",function (e) {
+//             if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+//                return false;
+//             }
+//        });
+//});   
+
+/*----------Method to allow only Numeric Input-------*/
+ window.addEventListener('DOMContentLoaded', function () {
+          $("body").on("keypress", ".numericOnlyjs input", function (e) {
+              if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                  return false;
+              }
+          });
+      });
+
+
+
+window.addEventListener('DOMContentLoaded', function () {
+		   $("body").on("keypress", ".alphabetsInputOnly input", function (e) {
+              if (e.which > 31 && (e.which < 65 || e.which > 90) && (e.which < 97 || e.which > 122)) {
+                // if((e.which >= 65 && e.which <= 120) && (e.which != 32 && e.which != 0)){
+                  return false;
+              }
+          });
+		  });

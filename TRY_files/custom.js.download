@@ -1,0 +1,95 @@
+
+
+
+   function setFocusMethod(event) {
+
+          var sourceId = event.getSource().getClientId();
+          var source = event.getSource();
+          var textfield = event.getCurrentTarget();
+          var textfield_current_content = textfield.getSubmittedValue();
+          var textfield_current_content_length = textfield_current_content.length;
+
+          var sourElement = event.getSource();
+          var element = sourElement.findComponent("it2");
+
+          if (textfield_current_content_length == 4) {
+              element.focus();
+
+          }
+
+      }
+
+      function setFocusMeth(event) {
+
+          var sourceId = event.getSource().getClientId();
+          var source = event.getSource();
+          var textfield = event.getCurrentTarget();
+          var textfield_current_content = textfield.getSubmittedValue();
+          var textfield_current_content_length = textfield_current_content.length;
+          var sourElement = event.getSource();
+          var element = sourElement.findComponent("it3");
+          if (textfield_current_content_length == 4) {
+              element.focus();
+          }
+      }
+
+      function setFocusMTD(event) {
+          var sourceId = event.getSource().getClientId();
+          var source = event.getSource();
+          var textfield = event.getCurrentTarget();
+          var textfield_current_content = textfield.getSubmittedValue();
+          var textfield_current_content_length = textfield_current_content.length;
+
+          var sourElement = event.getSource();
+          var element = sourElement.findComponent("it4");
+          if (textfield_current_content_length == 4) {
+              element.focus();
+          }
+	  }
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		   function clear1(event) {
+
+          var sourElement = event.getSource();
+          var element1 = sourElement.findComponent("it5");
+          var element2 = sourElement.findComponent("it6");
+          var element3 = sourElement.findComponent("it8");
+
+          element1.setValue("");
+          element2.setValue("");
+          element3.setValue("");
+
+      }
+
+      function clear2(event) {
+
+          var sourElement = event.getSource();
+          var element1 = sourElement.findComponent("it3");
+          var element2 = sourElement.findComponent("it6");
+          var element3 = sourElement.findComponent("it8");
+
+          element1.setValue("");
+          element2.setValue("");
+          element3.setValue("");
+
+      }
+
+      function clear3(event) {
+
+          var sourElement = event.getSource();
+          var element1 = sourElement.findComponent("it3");
+          var element2 = sourElement.findComponent("it5");
+
+          element1.setValue("");
+          element2.setValue("");
+
+      }
+      

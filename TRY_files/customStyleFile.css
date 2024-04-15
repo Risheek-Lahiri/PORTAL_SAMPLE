@@ -1,0 +1,1099 @@
+/*----------Custom Style Code Start----------*/
+.d-block
+{
+    display: block !important;
+}
+.d-inline
+{
+    display: inline-block !important;
+}
+.border-0 {
+  border: 0 !important;
+}
+
+.border-top-0 {
+  border-top: 0 !important;
+}
+
+.border-right-0 {
+  border-right: 0 !important;
+}
+
+.border-bottom-0 {
+  border-bottom: 0 !important;
+}
+
+.border-left-0 {
+  border-left: 0 !important;
+}
+.m-0 {
+    margin: 0 !important;
+}
+
+.mt-0, .my-0 {
+    margin-top: 0 !important;
+}
+
+.mr-0, .mx-0 {
+    margin-right: 0 !important;
+}
+
+.mb-0, .my-0 {
+    margin-bottom: 0 !important;
+}
+
+.ml-0, .mx-0 {
+    margin-left: 0 !important;
+}
+
+.m-1 {
+    margin: 0.25rem !important;
+}
+
+.mt-1, .my-1 {
+    margin-top: 0.25rem !important;
+}
+
+.mr-1, .mx-1 {
+    margin-right: 0.25rem !important;
+}
+
+.mb-1, .my-1 {
+    margin-bottom: 0.25rem !important;
+}
+
+.ml-1, .mx-1 {
+    margin-left: 0.25rem !important;
+}
+
+.m-2 {
+    margin: 0.5rem !important;
+}
+
+.mt-2, .my-2 {
+    margin-top: 0.5rem !important;
+}
+
+.mr-2, .mx-2 {
+    margin-right: 0.5rem !important;
+}
+
+.mb-2, .my-2 {
+    margin-bottom: 0.5rem !important;
+}
+
+.ml-2, .mx-2 {
+    margin-left: 0.5rem !important;
+}
+
+.m-3 {
+    margin: 1rem !important;
+}
+
+.mt-3, .my-3 {
+    margin-top: 1rem !important;
+}
+
+.mr-3, .mx-3 {
+    margin-right: 1rem !important;
+}
+
+.mb-3, .my-3 {
+    margin-bottom: 1rem !important;
+}
+
+.ml-3, .mx-3 {
+    margin-left: 1rem !important;
+}
+
+.m-4 {
+    margin: 1.5rem !important;
+}
+
+.mt-4, .my-4 {
+    margin-top: 1.5rem !important;
+}
+
+.mr-4, .mx-4 {
+    margin-right: 1.5rem !important;
+}
+
+.mb-4, .my-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+.ml-4, .mx-4 {
+    margin-left: 1.5rem !important;
+}
+
+.m-5 {
+    margin: 3rem !important;
+}
+
+.mt-5, .my-5 {
+    margin-top: 3rem !important;
+}
+
+.mr-5, .mx-5 {
+    margin-right: 3rem !important;
+}
+
+.mb-5, .my-5 {
+    margin-bottom: 3rem !important;
+}
+
+.ml-5, .mx-5 {
+    margin-left: 3rem !important;
+}
+
+.p-0 {
+    padding: 0 !important;
+}
+
+.pt-0, .py-0 {
+    padding-top: 0 !important;
+}
+
+.pr-0, .px-0 {
+    padding-right: 0 !important;
+}
+
+.pb-0, .py-0 {
+    padding-bottom: 0 !important;
+}
+
+.pl-0, .px-0 {
+    padding-left: 0 !important;
+}
+
+.p-1 {
+    padding: 0.25rem !important;
+}
+
+.pt-1, .py-1 {
+    padding-top: 0.25rem !important;
+}
+
+.pr-1, .px-1 {
+    padding-right: 0.25rem !important;
+}
+
+.pb-1, .py-1 {
+    padding-bottom: 0.25rem !important;
+}
+
+.pl-1, .px-1 {
+    padding-left: 0.25rem !important;
+}
+
+.p-2 {
+    padding: 0.5rem !important;
+}
+
+.pt-2, .py-2 {
+    padding-top: 0.5rem !important;
+}
+
+.pr-2, .px-2 {
+    padding-right: 0.5rem !important;
+}
+
+.pb-2, .py-2 {
+    padding-bottom: 0.5rem !important;
+}
+
+.pl-2, .px-2 {
+    padding-left: 0.5rem !important;
+}
+
+.p-3 {
+    padding: 1rem !important;
+}
+
+.pt-3, .py-3 {
+    padding-top: 1rem !important;
+}
+
+.pr-3, .px-3 {
+    padding-right: 1rem !important;
+}
+
+.pb-3, .py-3 {
+    padding-bottom: 1rem !important;
+}
+
+.pl-3, .px-3 {
+    padding-left: 1rem !important;
+}
+
+.p-4 {
+    padding: 1.5rem !important;
+}
+
+.pt-4, .py-4 {
+    padding-top: 1.5rem !important;
+}
+
+.pr-4, .px-4 {
+    padding-right: 1.5rem !important;
+}
+
+.pb-4, .py-4 {
+    padding-bottom: 1.5rem !important;
+}
+
+.pl-4, .px-4 {
+    padding-left: 1.5rem !important;
+}
+
+.p-5 {
+    padding: 3rem !important;
+}
+
+.pt-5, .py-5 {
+    padding-top: 3rem !important;
+}
+
+.pr-5, .px-5 {
+    padding-right: 3rem !important;
+}
+
+.pb-5, .py-5 {
+    padding-bottom: 3rem !important;
+}
+
+.pl-5, .px-5 {
+    padding-left: 3rem !important;
+}
+
+.m-auto {
+    margin: auto !important;
+}
+
+.mt-auto, .my-auto {
+    margin-top: auto !important;
+}
+
+.mr-auto, .mx-auto {
+    margin-right: auto !important;
+}
+
+.mb-auto, .my-auto {
+    margin-bottom: auto !important;
+}
+
+.ml-auto, .mx-auto {
+    margin-left: auto !important;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.float-left {
+    float: left !important;
+}
+
+.float-right {
+    float: right !important;
+}
+
+.inlineValues {
+    color: rgb(243, 112, 33) !important;
+    font-weight: 600 !important;
+    padding: 0 3px !important;
+}
+
+.main-container-checkTransaction {
+    border: 1px solid black;
+    padding: 20px;
+    position: static !important;
+    display: block;
+}
+
+.main-container-checkTransaction>span {
+    display: block;
+    float: left;
+    width: 100%;
+    margin: 0;
+    padding: 0
+}
+
+.main-container-checkTransaction .reconciledSubHeading {
+    display: block;
+    font-weight: bold !important;
+    width: 92%
+}
+
+.main-container-checkTransaction .selectBoxSection {
+    display: block;
+}
+
+.main-container-checkTransaction .selectBoxSection>span {
+    display: block;
+    margin-top: 20px;
+}
+
+.main-container-checkTransaction .selectBoxSection .button-Section {
+    padding: 0;
+    margin: 20px 0 30px 0;
+}
+
+.main-container-checkTransaction .selectBoxSection .button-Section>.showTransactionButton {
+    display: inline-block;
+    padding: 12px 20px;
+}
+
+.main-container-checkTransaction .selectBoxSection .button-Section>.showTransactionResetLink {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 60px;
+}
+
+.main-container-checkTransaction .totalRecordsMessageSection {
+    font-size: 22px;
+    margin: 30px 0 !important;
+}
+
+.main-container-checkTransaction .tableMessage {
+    font-weight: bold;
+    margin-bottom: 20px !important
+}
+
+.main-container-checkTransaction .bottomButtonSection {
+    text-align: right
+}
+
+.main-container-checkTransaction .bottomButtonSection .confirmationButton {
+    display: inline-block !important;
+    padding: 12px 15px !important;
+    margin-right: 50px;
+}
+
+.main-container-checkTransaction .bottomButtonSection .disputeButton {
+    display: inline-block !important;
+    padding: 12px 15px !important;
+}
+
+.popupContainerPadding {
+    padding: 70px 30px !important;
+}
+
+.popupText {
+    display: block;
+    text-align: center;
+    line-height: 40px;
+    color: rgb(0, 22, 78);
+    padding: 0 50px;
+}
+
+.popupButtonLeft {
+    display: inline-block !important;
+    width: 30%;
+    padding: 15px;
+    margin-right: 10%;
+}
+
+.popupButtonRight {
+    display: inline-block !important;
+    width: 30%;
+    padding: 15px;
+}
+
+.main-container-transactionYerterday {
+    border: 1px solid black;
+    padding: 40px;
+    position: static !important;
+    display: block;
+}
+
+.main-container-transactionYerterday>span {
+    display: block;
+    float: left;
+    width: 100%;
+    margin: 0;
+    padding: 0
+}
+
+.main-container-transactionYerterday .statuatoryMessage {
+    line-height: 30px
+}
+
+.main-container-transactionYerterday .selectBoxSection {
+    display: block;
+    margin-top: 30px;
+    width: 25%;
+}
+
+.main-container-transactionYerterday .selectBoxSection>* {
+    margin-bottom: 5px;
+    display: block;
+}
+
+.main-container-transactionYerterday .selectBoxButtonSection {
+    display: block;
+    margin-top: 25px;
+    width: 30%;
+}
+
+.main-container-transactionYerterday .selectBoxButtonSection>* {
+    display: inline-block !important;
+    vertical-align: middle;
+    float: none
+}
+
+.main-container-transactionYerterday .selectBoxButtonSection .selectBoxButton {
+    margin-right: 40px;
+    padding: 13px 25px !important;
+}
+
+.main-container-transactionYerterday .debitBalanceAlertContainer {
+    padding: 15px 0;
+    background-color: rgb(251, 250, 250);
+    margin: 40px 0;
+    text-align: center;
+}
+
+.main-container-transactionYerterday .debitBalanceAlertContainer>* {
+    font-size: 42px;
+    font-weight: 300;
+    font-family: 'Roboto', sans-serif;
+}
+
+.main-container-transactionYerterday .tableResultMessage {
+    font-size: 16px;
+    margin: 10px 0
+}
+
+.main-container-transactionYerterday .bottomMessageSection {
+    font-size: 16px;
+}
+
+.main-container-transactionYerterday .bottomMessageSection>* {
+    display: table-cell;
+    line-height: 30px;
+}
+
+.main-container-transactionYerterday .bottomMessageSection .noteText {
+    width: 60px
+}
+/*Invoice with Tax page css starts*/
+.main-container-InvoiceTax {
+    font-size:22px;
+    padding: 20px;
+    position: static !important;
+    display: block;
+}
+
+.main-container-InvoiceTax .selectBoxSection {
+    display: block;
+}
+
+.main-container-InvoiceTax .selectBoxSection>span {
+    display: block;
+    margin-top: 20px;
+}
+
+.main-container-InvoiceTax .selectBoxSection .button-Section {
+    padding: 0;
+    margin: 20px 0 30px 0;
+}
+
+.main-container-InvoiceTax .selectBoxSection .button-Section>.showTransactionButton {
+    display: inline-block;
+    padding: 12px 50px;
+    margin-right: 20px;
+}
+
+.main-container-InvoiceTax .selectBoxSection .button-Section>.showTransactionResetLink {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 60px;
+}
+
+.main-container-InvoiceTax .totalRecordsMessageSection {
+    display:block;
+    font-size: 22px;
+    width: 100%;
+    margin: 15px 0 !important;
+}
+.main-container-InvoiceTax .totalRecordsMessageHighlighted {
+    color: #f37021;
+    padding: 0 5px;
+}
+.main-container-InvoiceTax .totalRecordsMessage {
+    float:left;
+    display:inline-block;
+    line-height: 60px;
+}
+.main-container-InvoiceTax .totalRecordsMessageSearch
+{
+    float:right;
+    display:inline-block
+}
+.main-container-InvoiceTax .totalRecordsMessageSearchInput
+{
+    display:inline-block
+}
+.main-container-InvoiceTax .totalRecordsMessageSearchButton
+{
+    display: inline-block !important;
+    padding: 13px 30px !important;
+    margin: 0 0 0 20px;
+    font-size: 20px !important;
+}
+/*Invoice with Tax page css ends*/
+
+/*asset page css starts*/
+.assetPageHeader
+{
+    display:block;
+    padding:10px 20px;
+}
+.assetPageHeading
+{
+    display:block;
+    font-size:22px;
+}
+.assetSearchInput
+{
+    display:inline-block;
+}
+.assetSearchButton
+{
+    display:inline-block !important;
+    padding: 10px 30px !important;
+    margin-left: 20px;
+}
+.assetMessageSection
+{
+    display:block;
+    padding: 30px 0 10px 0;
+    font-size:18px
+}
+.assetLinkStyling
+{
+    font-size:18px !important;
+    padding:0 20px;
+    font-weight:bold !important;
+    text-decoration:underline !important;
+}
+/*asset page css ends*/
+
+/*Supply Point Page css starts*/
+.totalRecordsMessageSection
+{
+    font-size:18px;
+    line-height:60px
+}
+.supplyPointInput
+{
+    display:inline-block
+}
+.supplyPointButton
+{
+    font-size:18px !important;
+    display:inline-block !important;
+    padding:15px 30px !important;
+    margin-left:20px
+}
+/*Supply Point Page css ends*/
+
+
+/*Pending SR Details Page Start*/
+.distributorresponse>span {
+    display: block;
+    margin: 0
+}
+
+.grievanceHeader {
+    font-size: 24px;
+    color: #00164e;
+}
+
+.serviceRequestSection {
+    background-color: #f1f1f1;
+    display: block;
+    margin: 20px 15px;
+    padding: 20px 40px;
+}
+
+.serviceRequestHeader {
+    font-size: 20px;
+    font-weight: 600
+}
+
+.resultsHeader {
+    font-size: 20px
+}
+
+.consumerNumberconfirmation {
+    color: rgb(243, 112, 33);
+}
+
+.distributorResponseHeader {
+    font-size: 36px;
+}
+
+.warning {
+    color: red;
+}
+
+.dynamicServicerequestContent {
+    color: inherit;
+}
+
+.labelheader {
+    font-weight: 600;
+    display: block;
+    width: 100%
+}
+
+.inlinelabelheader {
+    font-weight: 600;
+    display: inline-block;
+    width: auto
+}
+
+.inputTextLimitLabel {
+    display: block;
+    width: 100%;
+    text-align: right;
+    color: #e2e2e2;
+}
+/*Pending SR Details Page Ends*/
+/*Style for profile page start*/
+.block-level {
+    display: block !important;
+    line-height: 2;
+}
+
+.profile-border-box {
+    border: solid 2px #CACAC8;
+}
+
+.profile-padding {
+    padding: 15px;
+}
+
+.font-bold {
+    font-weight: 600;
+}
+
+.profile-head {
+    font-weight: 600;
+    font-size: 20px;
+}
+/*Style for profile page end*/
+
+
+/*Style for saler order page starts*/
+.salerOrderMainContainer
+{
+    display:block;
+    padding:40px 0;
+}
+.salesOrderHeaderTitle
+{
+    display:block;
+    text-align:left;
+    font-weight:bold;
+    font-size:24px;
+    margin:0 0 30px 30px;
+}
+.salesOrderTableTitle
+{
+    font-size:18px;
+    font-weight: 300;
+    margin: 10px 0;
+    display: block;
+}
+.salesOrderFormSection
+{
+    display:block;
+    margin-top:20px;
+}
+.salesOrderUserMobileNumber
+{
+    display:block;
+    font-weight:bold;
+    font-size:18px;
+    margin: 20px 0;
+}
+.fontOrange
+{
+    color:rgb(243, 112, 33);
+    margin-left:5px;
+}
+.salesOrderFormSectionRow
+{
+    display: block;
+    margin: 0 0 30px 0;
+}
+.salerOrderFormSectionLable
+{
+    display:block;
+    font-weight:bold;
+    margin:20px 0
+}
+.salerOrderFormSectionTextLable
+{
+    display:block;
+    font-weight:bold;
+    margin:0 0 10px 0
+}
+.salerOrderFormSectionCheckbox
+{
+    width: auto !important;
+    display: inline-block;
+    margin: 0 20px 0 0;
+}
+.salerOrderFormSectionCheckboxLable
+{
+    display:inline-block;
+    font-weight:bold
+}
+.salesOrderFormSectionResetLink
+{
+    line-height: 60px;
+    text-align: right;
+    text-decoration: underline;
+}
+/*Style for saler order page ends*/
+
+/*IBF Feedback Styling starts*/
+.IBFPageContainer
+{
+    display:block;
+    position:relative !important;
+    padding:30px 20px;
+    border:1px solid gray;
+}
+.IBFPageHeadingRow
+{
+    display:block;
+}
+.IBFPageHeading
+{
+    font-size: 26px;
+    color: rgb(0, 22, 78);
+}
+.IBFPageContentContainer
+{   
+    display:block;
+    padding:40px 20px;
+    background-color:rgb(242, 240, 240);
+    margin-top:25px;
+    font-size:16px;
+}
+.IBFPageContentSmileySection
+{
+    display:block;
+    margin:50px 0;
+    text-align:center
+}
+.IBFPageContentSmileyTabs
+{
+    margin: 0 auto;
+    float: none !important;
+    display: inline-block;
+}
+.IBFthanksMessageSection
+{
+    display:block;
+}
+.IBFthanksmessage
+{
+    font-size: 22px;
+    font-weight: 300;
+}
+.IBFtextBoxSection
+{
+    display:block;
+    text-align:center;
+    margin-top:20px;
+    margin-bottom:20px;
+}
+.IBFtextBox
+{
+    float:none;
+}
+
+.IBFConfirmPageContainer
+{
+    display: block;
+    position: relative !important;
+    padding: 8% 14%;
+    border: 1px solid gray;
+    text-align: center;
+}
+.IBFConfirmHeader
+{
+    display:block;
+    font-size:32px;
+    color:rgb(243, 112, 33);
+    font-weight:600;
+}
+.IBFConfirmSubHeader
+{
+    display:block;
+    font-size:22px;
+    font-weight:400;
+    margin-top:10px
+}
+/*IBF Feedback Styling ends*/
+
+/*Marine Product Specification Styling starts*/
+.productSpecTabsSection
+{
+    display: block !important;
+    float: left;
+    width: auto;
+    margin: 30px 35px;
+    padding: 30px 70px;
+    border: 1px solid rgb(233, 234, 234);
+}
+.productSpecTabs
+{
+    display:block;
+    border:1px solid rgb(243, 112, 33);
+    border-radius: 5px;
+    padding: 15px 80px;
+    margin-bottom: 20px;
+    text-align:center;
+}
+.pdfDownloadStyling
+{
+    color:#000 !important;
+    font-weight:500 !important;
+}
+.highlighedProductSpecTab
+{
+    font-size: 20px;
+    font-weight: 600;
+    color: rgb(243, 112, 33);
+    display: block;
+}
+.productSpecDisclaimer
+{
+    display: block;
+    float: left;
+    width: 100%;
+    margin: 0;
+    padding: 0px 35px;
+    font-size: 18px;
+}
+/*Marine Product Specification Styling ends*/
+
+/*Marine Product Search Styling starts*/
+.productRateSection
+{
+    display:block;
+    text-align:center;
+    background-color:rgb(251, 250, 250);
+    font-size:38px;
+    padding:20px 0;
+    margin: 70px 0 40px 0;
+}
+/*Marine Product Search Styling ends*/
+
+/*Product Details Styling starts*/
+.productDetailsTabsSection
+{
+    display: block !important;
+    float: left;
+    width: auto;
+    margin: 30px 16px;
+    padding: 5%;
+    border: 1px solid rgb(233, 234, 234);
+    text-align:center
+}
+.productDetailsTabs
+{
+    display:block;
+    border:1px solid rgb(243, 112, 33);
+    border-radius: 5px;
+    padding: 15px 80px;
+    margin-bottom: 35px;
+    text-align:center;
+}
+.highlighedProductDetailsTab
+{
+    font-size: 20px;
+    font-weight: 600;
+    color: rgb(243, 112, 33);
+    display: block;
+}
+.productDetailPdfDownloadStyling
+{
+    display:block;
+    color:#000 !important;
+    font-weight:500 !important;
+}
+/*Product Details Styling ends*/
+
+/*Create Nomination Styling start*/
+.CreateNominationInputStyling
+{
+    margin: 0 0 0 -10px;
+}
+/*Create Nomination Styling ends*/
+
+/*OTP.jsff page custom css starts*/
+.mainOtpContainer
+{
+    display: block;
+    border: 1px solid rgb(175, 177, 179);
+    padding:30px;
+}
+.otpPageHeader
+{
+    font-size: 28px;
+    color: rgb(0, 22, 78);
+    font-weight: 400;
+    margin-bottom: 30px;
+    display: block;
+}
+.otpMobileNumberMessageSection
+{
+    font-weight: 600;
+    display: block
+}
+.otpNumberHighlighted
+{
+    color: rgb(243, 112, 33);
+}
+.otpInputTextSection
+{
+    display:block;
+}
+.otpInputAllignment
+{
+    width: 70px;
+    display: inline-block;
+    margin: 10px 20px 20px 0;
+}
+.otpMessageLabelSection
+{
+    display: inline-block;
+    vertical-align: middle;
+}
+/*OTP.jsff page custom css ends*/
+/* Manage funds */
+
+ af|table.custTable{
+  
+  
+}
+af|table.custTable af|column::column-header-cell{
+    color: #000;
+    background-color: #fff;
+    font-size: 20px;
+    /* height: 126px; */
+    border: #ccc 1px solid;
+}
+af|table.custTable::data-table-VH-lines af|column::data-cell{
+     background-color: #fff;
+    height: 50px;
+    font-size: 17px;
+    /* border-top: #ccc 1px solid; */
+    padding-right: 0px;
+    text-align: center
+}
+
+ .row-margin-top {
+            margin-top: 20px;
+        }
+
+        .row-grey {
+            background: #F3F0EE;
+            padding:20px;
+        }
+        
+flex-container {
+    display: flex;                 /* primary flex container */
+    flex-direction: row;           /* horizontal alignment of flex items (default value; can be omitted) */
+    align-items: stretch;          /* will apply equal heights to flex items (default value; can be omitted) */
+   /* height: 100%;*/
+}
+
+flex-item {
+    display: flex;                 /* nested flex container */
+    flex-direction: column;        /* vertical alignment of flex items */
+    justify-content: center;       /* center flex items vertically */
+    align-items: center;           /* center flex items horizontally */
+}
+
+flex-item:first-child {
+  
+    flex: 3;                       /* consume 3x available space than sibling;
+                                      more details: http://stackoverflow.com/q/34644807/3597276 */
+}
+
+flex-item:last-child {
+  
+    flex: 1;
+}
+
+/* manage fund end*/
+
+
+/*Nomination history Styling starts*/
+.nominationHistoryHeader
+{
+    font-size:22px;
+    width:100%;
+}
+.nomHistorySearchBox
+{
+    display:inline-block;
+    width:auto;
+}
+.nomHistorySearchButton
+{
+    display:inline-block;
+    margin: 0 0 0 20px;
+    height:50px !important;
+    padding: 5px 30px !important;
+}
+/*Nomination history Styling ends*/
+
+/*ProductSearch styling starts*/
+.ProdSearchButton
+{
+    display: inline-block !important;
+    padding: 11px 65px !important;
+    margin: 15px 40px 0 0;
+}
+/*ProductSearch styling ends*/
+
+.infrastructureSearchButton
+{
+    font-size:20px !important;
+    font-weight:500 !important;
+    margin: 0 0 0 20px;
+    height:50px !important;
+    padding: 8px 30px !important;
+}
+
+/*Manage User Page Stying Starts*/
+.manageUserBodyContainerStyling
+{
+    background-color: #f2f0f0;
+    padding:40px 0 !important;
+    border: 1px solid #95989a;
+}
+.manageUserLabelStyling
+{
+    display:inline-block;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+select::-ms-expand {	display: none !important; }
+
+/*Manage User Page Styling Ends*/
+/*----------Custom Style Code End----------*/
